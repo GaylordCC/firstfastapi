@@ -9,3 +9,9 @@
 
 # Create a venv (virtual enviroment):
     python -m venv <venv-name>
+
+# CHeck the local Git link repository:
+    git remote -v
+
+# Delete the local Git link repository:
+    git remote rm origin
