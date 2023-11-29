@@ -32,11 +32,11 @@ def comments(id, limit=10):
     return {'data':  {'1', '2'}}
 
 class Blog(BaseModel):
-    tittle: str
+    title: str
     body: str
     published: Optional[bool]
 
 
 @app.post('/blog')
-def create_blog(request: Blog):
-    return {'data': 'Blog is created'}
+def create_blog(blog: Blog):
+    return {'data': f'Blog is created with title as {blog.title}'}
