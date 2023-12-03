@@ -28,7 +28,14 @@ def create(request: schemas.Blog, db: Session = Depends(get_db)):
 #Delete a blog
 @app.delete('/blog/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def destroy(id,db: Session = Depends(get_db)):
-    db.query(models.Blog).filter(models.Blog.id == id).delete(synchronize_session=False)
+    blog = db.query(models.Blog).filter(models.Blog.id == id).first()
+
+    if not blog:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with id {id} not found")
+
+
+    # blog.delete(synchronize_session=False)
+    db.delete(blog)
     db.commit()
     return 'done'
 
@@ -41,6 +48,7 @@ def update(id, request: schemas.Blog, db: Session = Depends(get_db)):
     if not blog:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with id {id} not found")
 
+    #blog.update(request)
     blog.title = request.title
     blog.body = request.body
     db.commit()
