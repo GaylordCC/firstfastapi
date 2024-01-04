@@ -67,7 +67,7 @@ def all(db: Session = Depends(get_db)):
     return blogs
 
 
-# Find a specyfic blog by id
+# Find a specific blog by id
 @app.get('/blog/{id}', status_code=200, response_model = schemas.ShowBlog, tags=['Blogs'])
 def show(id, response: Response, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
@@ -80,7 +80,7 @@ def show(id, response: Response, db: Session = Depends(get_db)):
     return blog
 
 
-
+# Create an user
 @app.post('/user', response_model = schemas.ShowUser, tags=['Users'])
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     new_user = models.User(name=request.name,email=request.email,password=Hash.bcrypt(request.password))
@@ -90,6 +90,7 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
     return new_user
 
 
+# Find a specific user
 @app.get('/user', response_model = schemas.ShowUser, tags=['Users'])
 def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
